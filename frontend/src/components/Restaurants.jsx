@@ -1,36 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "../api/axiosInstance";
 import RestaurantCard from "./RestaurantCard";
-
-/*
-cree un componente <Restaurants/> que hace una peicion al endpoint "/restaurants" y muestre la lista de restaurantes disponibles para hacer una peticion use la funcion .map()
-*/
+import { setRestaurants } from '../features/restaurants/restaurantsSlice';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Restaurants = () => {
-    const [restaurants, setRestaurants] = useState([]);
+    const dispatch = useDispatch();
+    const restaurants = useSelector((state) => state.restaurants);
 
     useEffect(() => {
         const fetchRestaurants = async () => {
             try {
                 const response = await axios.get('/restaurants');
-                setRestaurants(response.data);
+                dispatch(setRestaurants(response.data));
             } catch (error) {
                 console.error('Error fetching restaurants:', error);
             }
         };
 
         fetchRestaurants();
-    }, []);
+    }, [dispatch]);
 
     return (
-        <div>
-            <h2>Restaurantes Disponibles</h2>
-            <div className="restaurant-list">
+        <Container>
+            <h2 className="my-4">Restaurantes Disponibles</h2>
+            <Row>
                 {restaurants.map((restaurant) => (
-                    <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+                    <Col key={restaurant.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                        <RestaurantCard restaurant={restaurant} />
+                    </Col>
                 ))}
-            </div>
-        </div>
+            </Row>
+        </Container>
     );
 };
 
