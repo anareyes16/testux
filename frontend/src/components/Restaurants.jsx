@@ -23,12 +23,19 @@ const Restaurants = () => {
     }, [dispatch]);
 
     return (
-        <Container>
+         <Container className="d-flex flex-column align-items-center justify-content-center text-center py-4">
+            <div className="my-4">
+                <h1>Bienvenido a mie xamen </h1>
+                <p className="lead">Descubre los mejores restaurantes cerca de ti</p>
+            </div>
             <h2 className="my-4">Restaurantes Disponibles</h2>
-            <Row>
+            <Row className="justify-content-center w-100">
                 {restaurants.map((restaurant) => (
-                    <Col key={restaurant.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                    <Col key={restaurant.id} xs={12} sm={6} md={4} lg={3} className="mb-4 d-flex justify-content-center">
+                        
+                        
                         <RestaurantCard restaurant={restaurant} />
+                       
                     </Col>
                 ))}
             </Row>
